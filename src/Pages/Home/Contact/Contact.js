@@ -1,14 +1,19 @@
 import React from 'react';
 import PrimaryButton from '../../../Components/PrimaryButton/PrimaryButton';
+import appointment from '../../../assets/images/appointment.png';
 
 const Contact = () => {
     return (
-        <section className='mt-10 makeAppoint-bg py-[65px]'>
-            <div className='text-center mb-[60px]'>
+        <section className='mt-10 makeAppoint-bg py-[75px]' style={{
+            backgroundImage: `url(${appointment})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+        }}>
+            <div className='text-center md:mb-[60px] mb-[30px] md:mx-0 mx-3'>
                 <h3 className="text-xl font-bold text-secondary">Contact Us</h3>
                 <h2 className="text-[36px] font-normal text-white">Stay connected with us</h2>
             </div>
-            <form className='max-w-md mx-auto'>
+            <form className='max-w-md sm:mx-auto mx-4'>
                 <div className="relative mb-5">
                     <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                         <svg
@@ -47,7 +52,7 @@ const Contact = () => {
                         placeholder="Subject"
                     />
                 </div>
-                <div className='mb-5'>
+                <div className='mb-7'>
                     <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Your message..."></textarea>
                 </div>
                 <div className='text-center'>

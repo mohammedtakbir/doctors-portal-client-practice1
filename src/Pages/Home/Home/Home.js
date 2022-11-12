@@ -16,7 +16,7 @@ const Home = () => {
             <DentalCare />
             <MakeAppointment />
             <Testimonial />
-            {/* <Contact /> */}
+            <Contact />
         </>
     );
 };
