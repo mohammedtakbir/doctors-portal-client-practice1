@@ -1,12 +1,10 @@
-import { format } from 'date-fns';
 import React from 'react';
-import { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import bg from '../../../assets/images/bg.png';
 import chair from '../../../assets/images/chair.png';
 
-const AppointmentBanner = () => {
-    const [selectedDate, setSelectedDate] = useState(new Date());
+const AppointmentBanner = ({ selectedDate, setSelectedDate }) => {
+
     return (
         <section className='pt-[150px] pb-[120px]' style={{
             backgroundImage: `url(${bg})`,
@@ -22,7 +20,6 @@ const AppointmentBanner = () => {
                             selected={selectedDate}
                             onSelect={setSelectedDate}
                         />
-                        <p>You have selected: {format(selectedDate, 'PP')}</p>
                     </div>
                 </div>
             </div>
