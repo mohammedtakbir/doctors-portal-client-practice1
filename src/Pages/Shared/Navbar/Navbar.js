@@ -8,7 +8,8 @@ const Navbar = () => {
         <li><Link to='/appointment'>Appointment</Link></li>
         <li><Link to='/reviews'>Reviews</Link></li>
         <li><Link to='/contact'>Contact Us</Link></li>
-        <li><Link to='/login'>Login</Link></li>
+        <li><Link to='/login'>Log In</Link></li>
+        <li><Link to='/signup'>Sign Up</Link></li>
     </React.Fragment>
     return (
         <div className='max-w-[1440px] mx-auto'>

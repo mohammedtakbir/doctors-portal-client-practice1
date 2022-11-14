@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import React from 'react';
 
 const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
-    const { name, slots } = treatment;
+    const { name, slots } = treatment; //* treatment is just another name of appointmentOption with name, slots, _id
     const date = format(selectedDate, 'PP');
 
     const handleBooking = (e) => {
@@ -24,6 +24,10 @@ const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
         console.log(booking)
         setTreatment(null);
     }
+
+    //* TODO: send data to the server 
+    //* and once data is saved then close the modal
+    //* and display success toast 
 
     return (
         <>
