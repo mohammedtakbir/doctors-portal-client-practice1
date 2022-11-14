@@ -4,19 +4,36 @@ import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../../Contexts/AuthProvider';
 import toast from 'react-hot-toast';
+import { useState } from 'react';
 
 const Signup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { createUser } = useContext(AuthContext);
-    const handleLogin = (data) => {
-        console.log(data);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const [signUpError, setSignUpError] = useState('');
+
+    const handleLogin = (data, e) => {
+        const userInfo = {
+            displayName: data.name
+        };
         createUser(data.email, data.password)
             .then(res => {
+                handleUpdateUserProfile(userInfo);
+                e.target.reset();
+                setSignUpError('');
                 toast.success('signup successfully!')
                 console.log(res.user)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setSignUpError(err.message);
+                console.error(err)
+            })
     };
+
+    const handleUpdateUserProfile = (userInfo) => {
+        updateUserProfile(userInfo)
+            .then(() => { })
+            .catch(err => console.error(err))
+    }
 
     return (
         <section className='py-[100px] flex justify-center'>
@@ -57,6 +74,7 @@ const Signup = () => {
                         />
                         {errors.password && <p className='text-sm text-red-500'>{errors.password?.message}</p>}
                     </div>
+                    {signUpError && <p className='text-sm text-red-500 !mt-0'>{signUpError}</p>}
                     <button type="submit" className="w-full text-white bg-accent hover:bg-accent focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign Up</button>
                     <div className="text-sm font-medium text-center !mt-3">
                         Already have an account? <Link to="/login" className="text-secondary hover:underline">Log In</Link>

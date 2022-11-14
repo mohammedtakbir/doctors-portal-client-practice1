@@ -1,22 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../../Contexts/AuthProvider';
 import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { userLogin } = useContext(AuthContext);
+    const [loginError, setLoginError] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
-    const handleLogin = data => {
+    const handleLogin = (data, e) => {
         console.log(data);
         userLogin(data.email, data.password)
             .then(res => {
+                navigate(from);
+                e.target.reset();
+                setLoginError('');
                 toast.success('login successfully!');
                 console.log(res.user)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setLoginError(err.message);
+                console.error(err)
+            })
     }
 
     return (
@@ -48,6 +60,7 @@ const Login = () => {
                         {errors.password && <p className='text-sm text-red-500'>{errors.password?.message}</p>}
                     </div>
                     <Link to="" className="ml-auto text-sm hover:underline">Forgot Password?</Link>
+                    {loginError && <p className='text-sm text-red-500 !mt-0'>{loginError}</p>}
                     <button type="submit" className="w-full text-white bg-accent hover:bg-accent focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Log In</button>
                     <div className="text-sm font-medium text-center !mt-3">
                         New to Doctors Portal? <Link to="/signup" className="text-secondary hover:underline">Create new account</Link>
