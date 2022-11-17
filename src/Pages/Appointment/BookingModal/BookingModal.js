@@ -1,7 +1,11 @@
 import { format } from 'date-fns';
 import React from 'react';
+import { useContext } from 'react';
+import toast from 'react-hot-toast';
+import { AuthContext } from '../../../Contexts/AuthProvider';
 
-const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
+const BookingModal = ({ treatment, selectedDate, setTreatment, refetch }) => {
+    const { user } = useContext(AuthContext);
     const { name, slots } = treatment; //* treatment is just another name of appointmentOption with name, slots, _id
     const date = format(selectedDate, 'PP');
 
@@ -21,8 +25,25 @@ const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
             email,
             slot
         };
-        console.log(booking)
-        setTreatment(null);
+
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    refetch();
+                    toast.success('booking confirm')
+                    setTreatment(null);
+                }else{
+                    toast.error(data.message)
+                }
+            })
+
     }
 
     //* TODO: send data to the server 
@@ -55,7 +76,8 @@ const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
                             }
                         </select>
                         <input
-                            required
+                            disabled
+                            defaultValue={user?.displayName}
                             name='name'
                             type="text"
                             placeholder="Full Name"
@@ -69,7 +91,8 @@ const BookingModal = ({ treatment, selectedDate, setTreatment }) => {
                             className="input input-bordered w-full mt-4"
                         />
                         <input
-                            required
+                            disabled
+                            defaultValue={user?.email}
                             name='email'
                             type="email"
                             placeholder="Email"
