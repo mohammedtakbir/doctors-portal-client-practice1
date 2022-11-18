@@ -1,16 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { AuthContext } from '../../Contexts/AuthProvider';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
+import { useToken } from '../../Hooks/useToken';
 
 const Signup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useContext(AuthContext);
     const [signUpError, setSignUpError] = useState('');
+    const navigate = useNavigate();
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
+
+    const [token] = useToken(createdUserEmail);
+
+    if (token) {
+        navigate('/');
+    }
 
     const handleLogin = (data, e) => {
         const userInfo = {
@@ -19,6 +28,7 @@ const Signup = () => {
         createUser(data.email, data.password)
             .then(res => {
                 handleUpdateUserProfile(userInfo);
+                saveUserInfo(data.name, data.email);
                 e.target.reset();
                 setSignUpError('');
                 toast.success('signup successfully!')
@@ -34,7 +44,24 @@ const Signup = () => {
         updateUserProfile(userInfo)
             .then(() => { })
             .catch(err => console.error(err))
+    };
+
+    const saveUserInfo = (name, email) => {
+        const user = { name, email }
+        fetch(`http://localhost:5000/users`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setCreatedUserEmail(email);
+                console.log(data);
+            })
     }
+
 
     return (
         <section className='py-[100px] flex justify-center'>
