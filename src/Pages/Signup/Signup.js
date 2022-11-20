@@ -21,7 +21,7 @@ const Signup = () => {
         navigate('/');
     }
 
-    const handleLogin = (data, e) => {
+    const handleSignUp = (data, e) => {
         const userInfo = {
             displayName: data.name
         };
@@ -66,7 +66,7 @@ const Signup = () => {
     return (
         <section className='py-[100px] flex justify-center'>
             <div className="p-4 w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 md:p-7">
-                <form className="space-y-6" onSubmit={handleSubmit(handleLogin)}>
+                <form className="space-y-6" onSubmit={handleSubmit(handleSignUp)}>
                     <h5 className="text-xl font-medium text-gray-900 text-center">Sign Up</h5>
                     <div>
                         <label className="block mb-2 text-sm font-medium text-gray-900">Name</label>
