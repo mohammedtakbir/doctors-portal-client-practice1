@@ -11,11 +11,14 @@ import Signup from "../Pages/Signup/Signup";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 import ManageDoctors from "../Pages/Dashboard/ManageDoctors/ManageDoctors";
+import Payment from "../Pages/Dashboard/Payment/Payment";
+import ErrorPage from "../Pages/Shared/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <Main />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
@@ -37,6 +40,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
+        errorElement: <ErrorPage />,
         element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
         children: [
             {
@@ -54,6 +58,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/manageDoctors',
                 element: <AdminRoute><ManageDoctors /></AdminRoute>
+            },
+            {
+                path: '/dashboard/payment/:id',
+                element: <AdminRoute><Payment /></AdminRoute>
             }
         ]
     }
